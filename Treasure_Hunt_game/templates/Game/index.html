@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .btn-box{
+        background-color: lightgrey;
+        width: 300px;
+        border: 15px solid green;
+        padding: 50px;
+        margin: 20px;	
+    }
+</style>
+<body style="background-Image:url(https://wallpaperaccess.com/full/1963443.jpg)">
+    {% for message in messages  %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message</strong>{{message}}
+        <button type="button" class="close" data-dismis="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}    
+    <div style="
+        color: red;
+        background-color: black;
+        align-items: center;">
+        <h1 align='center' class="wanttobe">WELCOME TO TREASURE HUNT</h1>
+        </div>
+    <div>
+        {% if user.is_authenticated %}
+        <h3>Hello {{fname}}</h3>
+        <h4>You successfully logged in</h4>
+        <button type = "submit"><a href="/signout">sign out</a></button>
+        {% else %}
+        <div class="btn-box">
+            <h3 style="color:;text-align:left;"> IF YOU DON'T HAVE AN ACCOUNT THEN CLICK ON THE SIGN IN OPTION </h3>
+            <button type = "submit" ><a href="/signup"> sign up </a> </button><br>
+            <h3>IF YOU ALREADY HAVE AN ACCOUNT THEN CLICK ON THE SIGN IN OPTION </h3>
+            <button type = "submit" ><a href="/signin"> sign in </a></button><br>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="background-Image:url(https://img.freepik.com/free-vector/abstract-background_53876-43362.jpg?w=2000)">
+    <div>
+    <h2 align='center' class="wanttobe"><marquee>WELCOME TO THIS TREASURE HUNT GAME !!, WE ARE HAPPY TO HAVE YOU HERE</marquee></h2>
+  </div>
+  <button onclick="start_game()">START THE GAME</button>
+  <h3 id = "Question-el">QUESTION NUMBER - 1</h3>
+  <h3 id = "Clues-el">NUMBER OF CLUES - 5</h3>
+  <h3 id = "dead-ends-el">NUMBER OF DEAD ENDS - 2</h3>
+  <h3 id = "solution-el">SOLUTION - 1</h3>
+  <p id = "images-el"></p>
+  <img id = 'para'>
+  <h3 id = "hint-el"></h3>
+  <h3 id = "ans-el"></h3>
+  <p id="warning-id"></p>
+  <label>Enter your answer</label><br>
+  <input type="text" id="input-el"> </input><br>
+  <button id = "sub-el" onclick="submit()">SUBMIT</button>
+  <script type="text/javascript" src="{% static 'Game/index.js' %}"></script>
+</body>
+</html>
