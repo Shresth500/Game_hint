@@ -17,7 +17,7 @@ btn2.innerHTML = "Click here for answer"
 
 count=0;
 
-var questions = {}
+var questions = [0]
 var clues = [["Short cut always lead to failure",
                 "Red sign is a sign of failure",
             "Blue Sign is a sign of success"]]
@@ -63,7 +63,7 @@ function start_game(){
     document.getElementById("images-el").textContent = "In the Image what will be the path you will take";
     document.getElementById("para").style.height = "500px"
     document.getElementById("para").style.width = "500px"
-    document.getElementById("para").src = "..\Images\River.png";
+    document.getElementById("para").src = "{% static 'Images\River.png' %}";
 }
 function submit(){
     if(!flag){
@@ -74,12 +74,24 @@ function submit(){
             warn.textContent = "Write Something here"
         }
         else{
+            if(dead_ends === 0 || count === questions.length){
+                document.getElementById("para").src = ""
+                document.getElementById("para").style.height = "0px"
+                document.getElementById("para").style.widtg = "0px"
+                
+            }
             if(inp.value != answer[count]){
                 dead_ends-=1
                 dead.textContent = "NUMBER OF DEAD ENDS - " + String(dead_ends)
             }
             else{
-
+                warn.textContent = "Your Answer is Correct"
+                document.getElementById("para").src = ""
+                document.getElementById("para").style.height = "0px"
+                document.getElementById("para").style.widtg = "0px"
+                count+=1
+                document.body.removeChild(btn1);
+                document.body.removeChild(btn2);
             }
         }
     }
