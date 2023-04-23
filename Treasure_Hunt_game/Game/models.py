@@ -31,7 +31,26 @@ class Puzzle_status(BaseModel):
 
 class Puzzle(BaseModel):
     question = models.CharField(max_length=200)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="Images")
+    def Getsolution(self):
+        ans_obj = Answer.objects.filter(question=self)
+        data = []
+        for ans in ans_obj:
+            data.append({
+                'answer':ans.answer_given
+            })
+        return data
+    
+    def GetClues(self):
+        clues_obj = Clues.objects.filter(question = self)
+        clues = []
+        for c in clues_obj:
+            clues.append({
+                'clue1':c.clue1,
+                'clue2':c.clue2
+            })
+        return clues
+
 
 
 class Answer(BaseModel):

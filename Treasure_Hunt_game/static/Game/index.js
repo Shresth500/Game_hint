@@ -63,7 +63,7 @@ function start_game(){
     document.getElementById("images-el").textContent = "In the Image what will be the path you will take";
     document.getElementById("para").style.height = "500px"
     document.getElementById("para").style.width = "500px"
-    document.getElementById("para").src = "{% static 'Images\River.png' %}";
+    document.getElementById("para").src = "{% static '..\River.png' %}";
 }
 function submit(){
     if(!flag){

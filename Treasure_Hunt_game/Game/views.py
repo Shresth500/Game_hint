@@ -7,12 +7,16 @@ from Treasure_Hunt_game.settings import *
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.db import models
-from .models import Scoreboard
+from .models import Scoreboard,Puzzle,Answer,Clues
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect
 
 
+dead_ends = 2
+number_of_answer = 1
+Number_of_clues = 5
 
+i=0
 
 userid = None
 name = None
@@ -97,20 +101,35 @@ def account(request):
     return render(request,"Game/account.html",{'fname':User.objects.get(userid).first_name})
 
 def start_game(request):
-    return render(request,"Game/start_game.html",{'new_url': '/account'})
+    userid = request.session.get('user_id')
+    #user=User.objects.get(id=userid)
+    questions  = Puzzle.objects.all()
+    quest = []
+    for quests in questions:
+        quest.append({"questions":quests.question,
+                      "images":quests.image.url,
+                      'answer':quests.Getsolution(),
+                      'clues':quests.GetClues()})
+    
+    payload = {'status':True,'quest':quest}
+
+    return JsonResponse(payload)
+    #return render(request,"Game/start_game.html",{'new_url': '/account'})
 
 def details(request):
     userid = request.session.get('user_id')
     user = User.objects.get(id=userid)
+    det = Scoreboard.objects.get(email = user.email)
     #print(user.score)
     dict1 = {'fname': user.first_name, 
             'lname': user.last_name,
-            'email': user.email,}
+            'email': user.email,
+            'score':det.score}
     print(dict1)
     return render(request, "Game/details.html", dict1)
 
 def stats(request):
-    overall_data = Scoreboard.objects.all().values()
+    overall_data = Scoreboard.objects.all().order_by('score').values()
     context = {
         'member':overall_data
     }
