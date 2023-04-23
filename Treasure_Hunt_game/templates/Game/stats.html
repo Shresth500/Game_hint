@@ -6,7 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<style>
+    table {
+        border-collapse:separate;
+        border:solid black 1px;
+        border-radius:6px;
+    }
     
+    td, th {
+        border-left:solid black 1px;
+        border-top:solid black 1px;
+    }
+    
+    th {
+        background-color: blue;
+        border-top: none;
+    }
+    
+    td:first-child, th:first-child {
+         border-left: none;
+    }
+</style>
+<body style="background-Image:url(https://static.vecteezy.com/system/resources/previews/000/408/086/original/illustration-of-data-analysis-graph-vector.jpg)">
+
+    <h3 align="center">HERE IS THE SCOREBOARD</h3>
+
+
+<table border='1' align="center" CELLPADDING="2" CELLSPACING="2" WIDTH="1000">
+  <tr>
+    <th>EMAIL</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>SCORE</th>
+  </tr>
+  {% for x in member %}
+    <tr>
+      <td>{{ x.email }}</td>
+      <td>{{ x.first_name }}</td>
+      <td>{{ x.last_name }}</td>
+      <td>{{ x.score }}</td>
+    </tr>
+  {% endfor %}
+</table>      
 </body>
 </html>

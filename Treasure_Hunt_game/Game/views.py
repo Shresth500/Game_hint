@@ -3,14 +3,14 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
-#from Treasure_Hunt_game.Game.models import Scoreboard
 from Treasure_Hunt_game.settings import *
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.db import models
 from .models import Scoreboard
+from django.template import loader
+from django.views.decorators.csrf import csrf_protect
 
-from django.contrib.auth.models import User
 
 
 
@@ -21,6 +21,8 @@ score=0
 def home(request):
     return render(request,"Game/index.html")
 
+
+@csrf_protect
 def signup(request):
     if request.method == "POST":
         username = request.POST.get('Username')
@@ -53,11 +55,8 @@ def signup(request):
         myuser = User.objects.create_user(username=username,email=email,password=password)
         myuser.first_name=fname
         myuser.last_name=lname
-        myuser2 = Scoreboard.objects.create(username=username,email=email,password=password)
-        myuser2.first_name=fname
-        myuser2.last_name=lname
-        myuser2.score = 0
-        myuser.score = 0
+        myuser2 = Scoreboard.objects.create(user=myuser,first_name = fname,last_name = lname,email=email)
+        myuser2.save()
         
         myuser.save()
         
@@ -68,7 +67,7 @@ def signup(request):
         return redirect("signin")
     return render(request,"Game/signup.html")
 
-
+@csrf_protect
 def signin(request):
     if request.method == "POST":
         username = request.POST['Username']
@@ -80,8 +79,6 @@ def signin(request):
             request.session['user_id'] = userid
             login(request,user)
             fname=user.first_name
-            #Scoreboard.user = userid
-            #Scoreboard.score = 0
             return render(request,"Game/account.html",{'fname':fname})
         else:
             messages.error(request,"Bad Credentials")
@@ -97,11 +94,10 @@ def signout(request):
 
 def account(request):
     userid = request.session.get('user_id')
-    print(User.objects.get(id=userid))
     return render(request,"Game/account.html",{'fname':User.objects.get(userid).first_name})
 
 def start_game(request):
-    return render(request,"Game/start_game.html")
+    return render(request,"Game/start_game.html",{'new_url': '/account'})
 
 def details(request):
     userid = request.session.get('user_id')
@@ -111,7 +107,12 @@ def details(request):
             'lname': user.last_name,
             'email': user.email,}
     print(dict1)
-    return render(request, "Game/details.html",dict1)
+    return render(request, "Game/details.html", dict1)
 
 def stats(request):
-    return render(request,"Game/stats.html")
+    overall_data = Scoreboard.objects.all().values()
+    context = {
+        'member':overall_data
+    }
+    template = loader.get_template("Game/stats.html")
+    return HttpResponse(template.render(context,request))
