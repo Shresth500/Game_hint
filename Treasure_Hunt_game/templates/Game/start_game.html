@@ -22,8 +22,10 @@
   <h3 id = "ans-el"></h3>
   <p id="warning-id"></p>
   <label>Enter your answer</label><br>
-  <input type="text" id="input-el"> </input><br>
-  <button id = "sub-el" onclick="submit()">SUBMIT</button>
-  <script type="text/javascript" src="{% static 'Game/index.js' %}"></script>
+  <input type="text" id="input-el" name='input'> </input><br>
+  <button type = "submit" id = "sub-el" onclick="submit()">SUBMIT</button>
+  <script type="text/javascript" src="{% static 'Game/index.js' %}">
+    var image_url = "{{ image_url }}";
+  </script>
 </body>
 </html>

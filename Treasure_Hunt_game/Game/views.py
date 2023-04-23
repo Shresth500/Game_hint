@@ -97,11 +97,12 @@ def signout(request):
     return redirect('home')
 
 def account(request):
-    userid = request.session.get('user_id')
-    return render(request,"Game/account.html",{'fname':User.objects.get(userid).first_name})
+    return render(request,"Game/account.html")
 
 def start_game(request):
     userid = request.session.get('user_id')
+    user = User.objects.get(id=userid)
+    det = Scoreboard.objects.get(email = user.email)
     #user=User.objects.get(id=userid)
     questions  = Puzzle.objects.all()
     quest = []
@@ -110,11 +111,14 @@ def start_game(request):
                       "images":quests.image.url,
                       'answer':quests.Getsolution(),
                       'clues':quests.GetClues()})
-    
+        
+
     payload = {'status':True,'quest':quest}
 
-    return JsonResponse(payload)
-    #return render(request,"Game/start_game.html",{'new_url': '/account'})
+    image_url = 'River.png'
+    context = {'image_url': image_url}
+    #return JsonResponse(payload)
+    return render(request,"Game/start_game.html",context)
 
 def details(request):
     userid = request.session.get('user_id')
@@ -135,3 +139,6 @@ def stats(request):
     }
     template = loader.get_template("Game/stats.html")
     return HttpResponse(template.render(context,request))
+
+def ends(request):
+    return render(request,"Game/end.html")

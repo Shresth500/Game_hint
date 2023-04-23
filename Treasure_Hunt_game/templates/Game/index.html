@@ -34,13 +34,13 @@
         {% if user.is_authenticated %}
         <h3>Hello {{fname}}</h3>
         <h4>You successfully logged in</h4>
-        <button type = "submit"><a href="/signout">sign out</a></button>
+        <a href="/signout"><button type = "submit">sign out</button></a>
         {% else %}
         <div class="btn-box">
             <h3 style="color:;text-align:left;"> IF YOU DON'T HAVE AN ACCOUNT THEN CLICK ON THE SIGN IN OPTION </h3>
-            <button type = "submit" ><a href="/signup"> sign up </a> </button><br>
+            <a href="/signup"><button type = "submit" > sign up </button></a><br>
             <h3>IF YOU ALREADY HAVE AN ACCOUNT THEN CLICK ON THE SIGN IN OPTION </h3>
-            <button type = "submit" ><a href="/signin"> sign in </a></button><br>
+            <a href="/signin"><button type = "submit" > sign in </button></a><br>
             {% endif %}
         </div>
     </div>

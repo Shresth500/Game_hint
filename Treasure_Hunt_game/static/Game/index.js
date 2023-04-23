@@ -7,6 +7,9 @@ let ans = document.getElementById("ans-el")
 let inp = document.getElementById("input-el")
 let warn = document.getElementById("warning-id")
 let btn1,btn2,btn3
+var image_url = "{{ image_url }}";
+
+score = 0
 
 let flag=false
 
@@ -40,6 +43,7 @@ function start_game(){
     btn1.onclick = function(){
         if(count < clues.length && clues_number > 0 ){
             if(i < clues[count].length && clues_number > 0){
+                score -= 1
                 hint.textContent += "\n HINT - " + String(i+1) + " " + clues[count][i];
                 i+=1 ;
                 clues_number-=1
@@ -52,6 +56,7 @@ function start_game(){
     }
     btn2.onclick = function(){
         if(answer_number > 0){
+            score-=5
             ans.textContent = answer[count]
             answer_number-=1
             solution.textContent = "SOLUTION - " + String(answer_number)
@@ -63,7 +68,7 @@ function start_game(){
     document.getElementById("images-el").textContent = "In the Image what will be the path you will take";
     document.getElementById("para").style.height = "500px"
     document.getElementById("para").style.width = "500px"
-    document.getElementById("para").src = "{% static '..\River.png' %}";
+    document.getElementById("para").src = "http://127.0.0.1:8000/Images/Images/River.png";
 }
 function submit(){
     if(!flag){
@@ -78,9 +83,24 @@ function submit(){
                 document.getElementById("para").src = ""
                 document.getElementById("para").style.height = "0px"
                 document.getElementById("para").style.widtg = "0px"
-                
+                document.querySelector('#sub-el').addEventListener('click', function(event) {
+                    event.preventDefault(); // prevent default behavior
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/start_game/', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log(xhr.responseText); // log response from Django view
+                        }
+                    };
+                    var data = 'score=' + encodeURIComponent(score); // set score data in request body
+                    xhr.send(data); // send AJAX request
+                });
+                window.location.href = '/ends/';
+
             }
             if(inp.value != answer[count]){
+                score-=2
                 dead_ends-=1
                 dead.textContent = "NUMBER OF DEAD ENDS - " + String(dead_ends)
             }
@@ -92,6 +112,25 @@ function submit(){
                 count+=1
                 document.body.removeChild(btn1);
                 document.body.removeChild(btn2);
+            }
+            if(dead_ends === 0 || count === questions.length-1){
+                document.getElementById("para").src = ""
+                document.getElementById("para").style.height = "0px"
+                document.getElementById("para").style.widtg = "0px"
+                document.querySelector('#sub-el').addEventListener('click', function(event) {
+                    event.preventDefault(); // prevent default behavior
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/start_game/', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log(xhr.responseText); // log response from Django view
+                        }
+                    };
+                    var data = 'score=' + encodeURIComponent(score); // set score data in request body
+                    xhr.send(data); // send AJAX request
+                });
+                window.location.href = '/ends/';
             }
         }
     }
