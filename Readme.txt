@@ -1,4 +1,4 @@
-# Treasure Hunt
+#Treasure Hunt
 A login system - A person with his mail id would be able to register it.
 A set of question that lead you to the treasure with 5 minimum hints, 2 dead ends and 1 solution
 For every question minimum of 5 hints should be provided and if he answers them wrongly for 2 times then game will end, he can choose an option to see the solution only one's.
