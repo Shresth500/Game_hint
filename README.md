@@ -1,7 +1,7 @@
 # Game_hint
 
-In this project I have accesessed the curiosity of a user and how well he can understand the situation 
-Treasure Hunt
+In this project I have accesessed the curiosity level of a user and how well he can understand the situation, so Basically one situation would be given in the form of pictures and clues would be given, user can select answer tab to get answer but it would delete their 
+Treasure Hunt - Work Flow
 A login system - A person with his mail id would be able to register it.
 A set of question that lead you to the treasure with 5 minimum hints, 2 dead ends and 1 solution
 For every question minimum of 5 hints should be provided and if he answers them wrongly for 2 times then game will end, he can choose an option to see the solution only one's.
